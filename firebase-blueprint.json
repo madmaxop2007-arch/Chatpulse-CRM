@@ -1,0 +1,325 @@
+{
+  "entities": {
+    "Organization": {
+      "title": "Organization",
+      "description": "Multi-tenant real estate agency or broker firm",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "logoUrl": { "type": "string" },
+        "phone": { "type": "string", "maxLength": 25 },
+        "email": { "type": "string", "format": "email", "maxLength": 100 },
+        "location": { "type": "string", "maxLength": 150 },
+        "currency": { "type": "string", "maxLength": 20 },
+        "ownerId": { "type": "string" },
+        "leadStatuses": { "type": "array" },
+        "propertyTypes": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "ownerId", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile document storing agency affiliation and system role",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email", "maxLength": 100 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "phoneNumber": { "type": "string", "maxLength": 25 },
+        "photoURL": { "type": "string" },
+        "organizationId": { "type": "string" },
+        "role": { "type": "string", "enum": ["owner", "admin", "agent"] },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "organizationId", "role"]
+    },
+    "Member": {
+      "title": "Member",
+      "description": "Agency team member record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "name": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 25 },
+        "role": { "type": "string", "enum": ["owner", "admin", "agent"] },
+        "status": { "type": "string", "enum": ["active", "invited", "inactive"] },
+        "joinedAt": { "type": "string" }
+      },
+      "required": ["userId", "email", "name", "role", "status"]
+    },
+    "Lead": {
+      "title": "Lead",
+      "description": "Prospective buyer or tenant seeking properties",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 25 },
+        "whatsapp": { "type": "string", "maxLength": 25 },
+        "email": { "type": "string", "format": "email", "maxLength": 100 },
+        "source": { "type": "string", "maxLength": 50 },
+        "budgetMin": { "type": "number" },
+        "budgetMax": { "type": "number" },
+        "propertyType": { "type": "string", "maxLength": 50 },
+        "preferredLocation": { "type": "string", "maxLength": 150 },
+        "purpose": { "type": "string", "enum": ["Buy", "Rent", "Investment"] },
+        "bedrooms": { "type": "string", "maxLength": 30 },
+        "status": { "type": "string", "enum": ["New", "Contacted", "Qualified", "Site Visit", "Negotiation", "Won", "Lost"] },
+        "priority": { "type": "string", "enum": ["Hot", "Warm", "Cold"] },
+        "assignedAgentId": { "type": "string" },
+        "assignedAgentName": { "type": "string" },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "nextFollowUpDate": { "type": "string" },
+        "isDemo": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "phone", "status", "priority", "createdAt"]
+    },
+    "Property": {
+      "title": "Property",
+      "description": "Real estate listing belonging to an agency",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "propertyCode": { "type": "string", "maxLength": 30 },
+        "title": { "type": "string", "maxLength": 150 },
+        "propertyType": { "type": "string", "maxLength": 50 },
+        "transactionType": { "type": "string", "enum": ["Sale", "Rent"] },
+        "price": { "type": "number" },
+        "location": { "type": "string", "maxLength": 100 },
+        "address": { "type": "string", "maxLength": 200 },
+        "city": { "type": "string", "maxLength": 60 },
+        "locality": { "type": "string", "maxLength": 100 },
+        "bedrooms": { "type": "number" },
+        "bathrooms": { "type": "number" },
+        "area": { "type": "number" },
+        "furnishing": { "type": "string", "enum": ["Furnished", "Semi-Furnished", "Unfurnished"] },
+        "floor": { "type": "number" },
+        "totalFloors": { "type": "number" },
+        "parking": { "type": "number" },
+        "facing": { "type": "string" },
+        "possessionStatus": { "type": "string" },
+        "description": { "type": "string", "maxLength": 4000 },
+        "amenities": { "type": "array" },
+        "ownerName": { "type": "string", "maxLength": 100 },
+        "ownerPhone": { "type": "string", "maxLength": 25 },
+        "assignedAgentId": { "type": "string" },
+        "assignedAgentName": { "type": "string" },
+        "status": { "type": "string", "enum": ["Available", "Reserved", "Sold", "Rented", "Inactive"] },
+        "images": { "type": "array" },
+        "isDemo": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "title", "propertyType", "transactionType", "price", "status", "createdAt"]
+    },
+    "Client": {
+      "title": "Client",
+      "description": "Verified client record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 25 },
+        "email": { "type": "string", "format": "email", "maxLength": 100 },
+        "whatsapp": { "type": "string", "maxLength": 25 },
+        "clientType": { "type": "string", "enum": ["Buyer", "Tenant", "Investor", "Seller", "Landlord"] },
+        "budget": { "type": "number" },
+        "preferredLocation": { "type": "string", "maxLength": 150 },
+        "propertyType": { "type": "string", "maxLength": 50 },
+        "requirements": { "type": "string", "maxLength": 1000 },
+        "assignedAgentId": { "type": "string" },
+        "assignedAgentName": { "type": "string" },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "isDemo": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "phone", "clientType", "createdAt"]
+    },
+    "FollowUp": {
+      "title": "FollowUp",
+      "description": "Scheduled or completed follow up interaction with lead or client",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "relatedType": { "type": "string", "enum": ["lead", "client"] },
+        "relatedId": { "type": "string" },
+        "relatedName": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "type": { "type": "string", "enum": ["Call", "WhatsApp", "Meeting", "Email", "Other"] },
+        "priority": { "type": "string", "enum": ["Low", "Medium", "High"] },
+        "assignedAgentId": { "type": "string" },
+        "assignedAgentName": { "type": "string" },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["Pending", "Completed", "Missed", "Cancelled"] },
+        "isDemo": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "relatedType", "relatedId", "date", "type", "status", "createdAt"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "Agent action task",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "dueDate": { "type": "string" },
+        "priority": { "type": "string", "enum": ["Low", "Medium", "High"] },
+        "status": { "type": "string", "enum": ["Todo", "In Progress", "Completed"] },
+        "assignedAgentId": { "type": "string" },
+        "assignedAgentName": { "type": "string" },
+        "relatedLeadId": { "type": "string" },
+        "relatedLeadName": { "type": "string" },
+        "relatedClientId": { "type": "string" },
+        "relatedClientName": { "type": "string" },
+        "isDemo": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "dueDate", "priority", "status", "createdAt"]
+    },
+    "SiteVisit": {
+      "title": "SiteVisit",
+      "description": "Scheduled property visit with lead or client",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "leadId": { "type": "string" },
+        "leadName": { "type": "string" },
+        "clientId": { "type": "string" },
+        "clientName": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "propertyTitle": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "location": { "type": "string", "maxLength": 150 },
+        "assignedAgentId": { "type": "string" },
+        "assignedAgentName": { "type": "string" },
+        "status": { "type": "string", "enum": ["Scheduled", "Completed", "Cancelled", "No Show"] },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "isDemo": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "propertyId", "propertyTitle", "date", "status", "createdAt"]
+    },
+    "Deal": {
+      "title": "Deal",
+      "description": "Sales pipeline deal tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "dealName": { "type": "string", "maxLength": 150 },
+        "leadId": { "type": "string" },
+        "leadName": { "type": "string" },
+        "clientId": { "type": "string" },
+        "clientName": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "propertyTitle": { "type": "string" },
+        "assignedAgentId": { "type": "string" },
+        "assignedAgentName": { "type": "string" },
+        "dealValue": { "type": "number" },
+        "expectedClosingDate": { "type": "string" },
+        "stage": { "type": "string", "enum": ["New", "Qualified", "Site Visit", "Negotiation", "Documentation", "Closed Won", "Closed Lost"] },
+        "probability": { "type": "number" },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "isDemo": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "dealName", "dealValue", "stage", "createdAt"]
+    },
+    "Activity": {
+      "title": "Activity",
+      "description": "Activity timeline log entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "relatedType": { "type": "string" },
+        "relatedId": { "type": "string" },
+        "relatedName": { "type": "string" },
+        "activityType": { "type": "string" },
+        "description": { "type": "string", "maxLength": 1000 },
+        "timestamp": { "type": "string" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "userId", "activityType", "description", "timestamp"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "In-app notifications",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 150 },
+        "message": { "type": "string", "maxLength": 500 },
+        "type": { "type": "string" },
+        "read": { "type": "boolean" },
+        "relatedId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "message", "read", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles linked to their organization"
+    },
+    "/organizations/{organizationId}": {
+      "schema": "Organization",
+      "description": "Organization details"
+    },
+    "/organizations/{organizationId}/members/{userId}": {
+      "schema": "Member",
+      "description": "Organization members and roles"
+    },
+    "/organizations/{organizationId}/leads/{leadId}": {
+      "schema": "Lead",
+      "description": "CRM leads"
+    },
+    "/organizations/{organizationId}/properties/{propertyId}": {
+      "schema": "Property",
+      "description": "Properties inventory"
+    },
+    "/organizations/{organizationId}/clients/{clientId}": {
+      "schema": "Client",
+      "description": "Clients records"
+    },
+    "/organizations/{organizationId}/followUps/{followUpId}": {
+      "schema": "FollowUp",
+      "description": "Follow-up schedules"
+    },
+    "/organizations/{organizationId}/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "Actionable tasks"
+    },
+    "/organizations/{organizationId}/siteVisits/{siteVisitId}": {
+      "schema": "SiteVisit",
+      "description": "Property site visits"
+    },
+    "/organizations/{organizationId}/deals/{dealId}": {
+      "schema": "Deal",
+      "description": "Sales pipeline deals"
+    },
+    "/organizations/{organizationId}/activities/{activityId}": {
+      "schema": "Activity",
+      "description": "Organization activity timeline"
+    },
+    "/organizations/{organizationId}/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications"
+    }
+  }
+}

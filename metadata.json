@@ -1,0 +1,6 @@
+{
+  "name": "ChatPulse CRM - Real Estate SaaS",
+  "description": "Production-ready multi-tenant Real Estate CRM SaaS web application for brokers and agencies to manage leads, properties, site visits, deals, and team workflows.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

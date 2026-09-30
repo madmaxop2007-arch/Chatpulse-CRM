@@ -1,0 +1,33 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isImageFile() {
+      return request.resource.contentType.matches('image/.*')
+        && request.resource.size < 10 * 1024 * 1024; // 10MB limit
+    }
+
+    // Public / organization logos and property images
+    match /organizations/{orgId}/{allPaths=**} {
+      // Authenticated users can read organization media
+      allow read: if isSignedIn();
+      // Only authenticated users can upload valid images up to 10MB
+      allow write: if isSignedIn() && isImageFile();
+    }
+
+    // User profile images
+    match /users/{userId}/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && request.auth.uid == userId && isImageFile();
+    }
+
+    // Default deny
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
